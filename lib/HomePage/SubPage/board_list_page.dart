@@ -1,0 +1,145 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_app/Utils/Function.dart';
+import 'package:flutter_app/state.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+
+class BoardListPage extends StatefulWidget {
+  String title;
+  BoardListPage({this.title});
+
+  @override
+  _BoardListPageState createState() => _BoardListPageState();
+}
+
+class _BoardListPageState extends State<BoardListPage> {
+
+  appbarButtons(icon, name) {
+    return ClipOval(
+      child: Material(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () {},
+          onLongPress: (){
+            showToastMessage(name);
+          },
+          child: SizedBox(
+              width: 56,
+              height: 56,
+              child: Icon(
+                icon,
+                color: Colors.black,
+              )
+          ),
+        ),
+      ),
+    );
+  }
+
+  void showToastMessage(String message){
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        textColor: Colors.white,
+        backgroundColor: Colors.black38,
+        fontSize: 16.0,
+
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_rounded),
+          color: Colors.black,
+          iconSize: 20,
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          appbarButtons(Icons.sync, "새로고침"),
+          appbarButtons(Icons.search_rounded, "글 검색"),
+          appbarButtons(Icons.more_vert_rounded, "옵션 더보기"),
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        child: ListView.separated(
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            return Container(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        iconWithNumber(Icons.thumb_up_alt_outlined, 0, mainColor),
+                        iconWithNumber(Icons.mode_comment_outlined, 2, blueColor),
+                      ],
+                    )
+                  ],
+                )
+            );
+          },
+          separatorBuilder: (context, index) {
+            return Divider(
+              height: 5,
+            );
+          },
+        ),
+      ),
+      bottomNavigationBar: Container(
+        height: 50,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: GestureDetector(
+        onTap: () {
+
+        },
+        child: Container(
+            width: 110,
+            height: 45,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              color: greyColor,
+              borderRadius: BorderRadius.circular(36),
+              border: Border.all(
+                color: borderColor,
+              )
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.edit_outlined, color: mainColor, size: 25,),
+                SizedBox(width: 10,),
+                Text(
+                  "글 쓰기",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
+                  ),),
+              ],
+            )
+        ),
+      ),
+    );
+  }
+}
